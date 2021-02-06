@@ -1,1 +1,2 @@
-enhscr
+## enhscr
+pip install .
