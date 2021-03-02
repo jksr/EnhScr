@@ -33,7 +33,7 @@ def mmseqs2_from_fasta_files(qfn, tfn, outfn=None, tmpdir=None, ):
     else:
         ofn = outfn
     
-    assert ofn.exists(), f'output file {ofn} already exists!'
+    assert not Path(ofn).exists(), f'output file {ofn} already exists!'
     
     mmseqs_format = '"query,target,pident,alnlen,mismatch,gapopen,qstart,qend,tstart,tend,evalue,bits"'
 #     cmd = f'mmseqs easy-search {qfn} {tfn} {ofn} {mmseqs_tmp} --format-output {mmseqs_format}'
@@ -49,7 +49,6 @@ def mmseqs2_from_fasta_files(qfn, tfn, outfn=None, tmpdir=None, ):
 
     outdf = pd.read_csv(ofn, sep='\t', names = ['query','target','pident','alnlen','mismatch','gapopen',
                                                 'qstart','qend','tstart','tend','evalue','bits'])
-#     print(ofn)
     return outdf
 
 
@@ -74,4 +73,4 @@ def mmseqs2_from_lists(qfas, qids, tfas, tids, tmpdir=None):
     SeqIO.write(qfasta_seqs, qfn, "fasta")
     SeqIO.write(tfasta_seqs, tfn, "fasta")
     
-    return mmseqs2_from_fasta_files(qfn, tfn, tmpdir)
+    return mmseqs2_from_fasta_files(qfn, tfn, None, tmpdir)
