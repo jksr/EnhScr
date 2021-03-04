@@ -30,7 +30,6 @@ def _r2_premapping(r2fn, n_barcode_bps=34, n_shared_bps=72, trim_barcode=True, t
     return tmpfn, outfn
 
 def _map(r1fn, r2fn, prefix, refdir, e2e=True, maxins=1000, minins=0, bowtie2_params=''):
-    print(refdir)
     opts = ''
     if e2e:
         opts += ' --end-to-end'
@@ -69,8 +68,7 @@ def mapping(R1_path, R2_path, output_prefix, reference_folder,
 
     tmpr2fn,_ = _r2_premapping(R2_path, n_barcode_bps=barcode_length, n_shared_bps=barcode_length, trim_barcode=True, trim_shared=trim_shared, tmpdirn=tmpdirn)
 
-    print(reference_folder)
-    samfn, reportfn = _map(R1_path, tmpr2fn, output_prefix, reference_folder, e2e=~local_mapping,
+    samfn, reportfn = _map(R1_path, tmpr2fn, output_prefix, reference_folder, e2e=not local_mapping,
                            maxins=max_insertion, minins=min_insertion, bowtie2_params=bowtie2_params)
 
     shutil.rmtree(tmpdirn)
