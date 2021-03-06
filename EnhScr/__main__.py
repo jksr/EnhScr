@@ -218,7 +218,8 @@ def main():
     if cur_command == 'mapping':
         from EnhScr.mapping import mapping as func
     elif cur_command == 'analyze_mapping':
-        from EnhScr.analyze_mapping import analyze_mapping as func
+#         from EnhScr.analyze_mapping import analyze_mapping as func
+        from EnhScr.mapping import analyze_mapping as func
     else:
         log.debug(f'{cur_command} not Known, check the main function if else part')
         parser.parse_args(["-h"])
