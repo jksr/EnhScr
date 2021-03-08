@@ -3,7 +3,7 @@ import pyfaidx
 import networkx as nx
 import numpy as np
 from ..tools.blast import mmseqs2_from_lists
-
+from Bio.Seq import Seq
 
 class DesignParameters:
     def __init__(self, fa_path, oligo_length, n_oligos_per_target, 
@@ -26,11 +26,13 @@ class OligoDesign:
         self._tgt_designer = target_designer
         self._anneal_starts = anneal_starts # these positions are corresponding to the scan region in TargetDesigner
         self.oligos = []
+        self.oligos_on_pos_strand = []
         self.annealings = []
         self.seq = ''
         self.tgt_offset = None
         
         self._assemble_seq()
+        self._reverse_complement_even_number_oligos()
         
     def _assemble_seq(self):
         anl_len = self._tgt_designer.params.anl_len
@@ -53,11 +55,16 @@ class OligoDesign:
         for i in range(olg_n):
             start = i*(olg_len-anl_len)
             self.oligos.append( self.seq[start:start+olg_len] )
+            self.oligos_on_pos_strand.append( self.seq[start:start+olg_len] )
             
             if i<olg_n-1:
                 self.annealings.append( self.seq[start+olg_len-anl_len:start+olg_len] )
 
         self.tgt_offset = self.seq.index(self._tgt_designer.tgt_seq)
+        
+    def _reverse_complement_even_number_oligos(self):
+        for i in range(1,len(self.oligos),2):
+            self.oligos[i] = str(Seq(self.oligos[i]).reverse_complement())
 
 
 

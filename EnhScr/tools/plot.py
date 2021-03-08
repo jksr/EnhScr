@@ -16,8 +16,9 @@ def plot_oligo_design(design, ax=None, figure_width=15, plot_lines=1, colors=Non
                                      label='adaptor',
                                      strand=+1, color=colors['adaptor']) ) #adaptor_left
     for i in range(len(design.annealings)):
-        gfeatures.append( GraphicFeature(start=design.seq.index(design.oligos[i]), 
-                                        end=design.seq.index(design.oligos[i])+len(design.oligos[i]),
+        #olg_strandness = +1 if i%2==0 else -1
+        gfeatures.append( GraphicFeature(start=design.seq.index(design.oligos_on_pos_strand[i]), 
+                                        end=design.seq.index(design.oligos_on_pos_strand[i])+len(design.oligos_on_pos_strand[i]),
                                         label='oligo',
                                         strand=+1, color=colors['oligo']) ) # oligo
         gfeatures.append( GraphicFeature(start=design.seq.index(design.annealings[i]), 
@@ -25,8 +26,8 @@ def plot_oligo_design(design, ax=None, figure_width=15, plot_lines=1, colors=Non
                                         label='annealing',
                                         strand=+1, color=colors['annealing']) ) # annealing
     i+=1
-    gfeatures.append( GraphicFeature(start=design.seq.index(design.oligos[i]), 
-                                    end=design.seq.index(design.oligos[i])+len(design.oligos[i]),
+    gfeatures.append( GraphicFeature(start=design.seq.index(design.oligos_on_pos_strand[i]), 
+                                    end=design.seq.index(design.oligos_on_pos_strand[i])+len(design.oligos_on_pos_strand[i]),
                                     label='oligo',
                                     strand=+1, color=colors['oligo']) ) # the last oligo
     gfeatures.append( GraphicFeature(start=design.seq.index(design._tgt_designer.adt_rgt), 
